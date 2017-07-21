@@ -1,0 +1,1 @@
+ rsync --recursive --stats ./ vagrant@10.0.0.10:/home/vagrant/Git/riced/
