@@ -3,4 +3,4 @@ riced1 ansible_host=10.0.0.11
 
 # This is the one I do stuff manually on
 [test]
-riced2 ansible_host=10.0.0.11
+riced2 ansible_host=10.0.0.12

@@ -22,7 +22,7 @@ vagrant up
 
 ```
 ansible -i hosts -u vagrant -k -m ping all
-ansible-playbook -i hosts -k -vvvv playbook.yaml
+ansible-playbook -i hosts -k -vv playbook.yaml
 ```
 
 ## TODO:

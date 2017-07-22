@@ -3,7 +3,9 @@
   become: true
   tasks:
   - name: Update Apt
-    apt: update_cache=true
+    apt:
+      update_cache: true
+      cache_valid_time: 300 # 5 minutes
   - name: Install X Server stuff
     apt: name={{item}} state=latest
     with_items:
