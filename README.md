@@ -22,9 +22,12 @@ vagrant up
 
 ```
 ansible -i hosts -u vagrant -k -m ping all
+ansible-playbook -i hosts -k -vvvv playbook.yaml
 ```
 
 ## TODO:
 
 - write the playbook to provision riced
   - like dev, but with i3-gaps
+  - Ansiblelize the "compile & install" step on https://github.com/Airblader/i3/wiki/Compiling-&-Installing
+    - Use find to create a "snapshot" of the different files, run stuff, then do it again and diff

@@ -1,0 +1,45 @@
+---
+- hosts: all
+  become: true
+  tasks:
+  - name: Update Apt
+    apt: update_cache=true
+  - name: Install X Server stuff
+    apt: name={{item}} state=latest
+    with_items:
+    # think this enables copy-paste between guest/host
+    - virtualbox-guest-dkms
+    - xinit
+    - git
+  # https://github.com/Airblader/i3/wiki/Compiling-&-Installing
+  - name: Git i3-gaps
+    become_user: vagrant
+    git:
+      repo: https://www.github.com/Airblader/i3
+      dest: ~/Git/i3-gaps
+  # http://docs.ansible.com/ansible/latest/apt_repository_module.html
+  - name: Add libxcb-xrm-dev PPA
+    apt_repository:
+      repo: 'ppa:aguignard/ppa'
+      update_cache: true
+  - name: Get i3-gaps dependencies
+    apt: name={{item}} state=latest
+    with_items:
+    - libxcb1-dev
+    - libxcb-keysyms1-dev
+    - libpango1.0-dev
+    - libxcb-util0-dev
+    - libxcb-icccm4-dev
+    - libyajl-dev
+    - libstartup-notification0-dev
+    - libxcb-randr0-dev
+    - libev-dev
+    - libxcb-cursor-dev
+    - libxcb-xinerama0-dev
+    - libxcb-xkb-dev
+    - libxkbcommon-dev
+    - libxkbcommon-x11-dev
+    - autoconf
+    - libxcb-xrm-dev
+
+
