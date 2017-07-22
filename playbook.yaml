@@ -12,7 +12,7 @@
     apt: name={{item}} state=latest
     with_items:
     # think this enables copy-paste between guest/host
-    # - virtualbox-guest-dkms
+    - virtualbox-guest-dkms
     - xinit
     - git
 
@@ -20,6 +20,37 @@
     copy:
       src: /home/vagrant/folder_state.py
       dest: /home/vagrant/folder_state.py
+
+  # TODO: prune this down?
+  - name: Install things Apt says i3 needs
+    apt: name={{item}} state=latest
+    with_items:
+    - dunst
+    - feh # for mah wallpapers
+    - i3lock
+    - i3status
+    - libanyevent-i3-perl
+    - libanyevent-perl
+    - libasound2
+    - libasound2-data
+    - libasync-interrupt-perl
+    - libasyncns0
+    - libcommon-sense-perl
+    - libconfuse-common
+    - libconfuse0
+    - libev-perl
+    - libflac8
+    - libguard-perl
+    - libjson-xs-perl
+    - libogg0
+    - libpulse0
+    - libsndfile1
+    - libtypes-serialiser-perl
+    - libvorbis0a
+    - libvorbisenc2
+    - libxcb-dpms0
+    - libxdg-basedir1
+    - suckless-tools
 
   # https://github.com/Airblader/i3/wiki/Compiling-&-Installing
   - name: Git i3-gaps
@@ -75,9 +106,27 @@
     args:
       chdir: /home/vagrant/Git/i3-gaps/build/
       creates: /usr/bin/i3
-  # Note: this will be replaced by the stow method for all of my configs
-  - name: Push the config
+  # TODO: will be replaced by the stow method for all of my configs
+  - name: make the i3 config folder
     file:
-      path: /home/vagrant/.config/i3/config
-      state: file
+      path: /home/vagrant/.config/i3
+      state: directory
+  - name: Push i3 config to remote hosts
+    copy:
+      src: /home/vagrant/.config/i3/config
+      dest: /home/vagrant/.config/i3/config
+  - name: make the Pictures dir
+    file:
+      path: /home/vagrant/Pictures
+      state: directory
+  - name: Push i3 Wallpaper
+    copy:
+      src: /home/vagrant/Pictures/1asx18foouaz.jpg
+      dest: /home/vagrant/Pictures/1asx18foouaz.jpg
+
+  - name: Make it the default window manager
+    alternatives:
+      name: x-window-manager
+      path: /usr/bin/i3
+      link: /usr/bin/x-window-manager
 
