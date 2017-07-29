@@ -1,14 +1,15 @@
 ---
 - hosts: all
-  # TODO: be vagrant, not root, unless needed
-  become: true
+  remote_user: vagrant
   gather_facts: false
   tasks:
   - name: Update Apt
+    become: true
     apt:
       update_cache: true
       cache_valid_time: 1500
   - name: Install X Server stuff
+    become: true
     apt: name={{item}} state=latest
     with_items:
     # think this enables copy-paste between guest/host
@@ -23,6 +24,7 @@
 
   # TODO: prune this down?
   - name: Install things Apt says i3 needs
+    become: true
     apt: name={{item}} state=latest
     with_items:
     - dunst
@@ -54,16 +56,17 @@
 
   # https://github.com/Airblader/i3/wiki/Compiling-&-Installing
   - name: Git i3-gaps
-    become_user: vagrant
     git:
       repo: https://www.github.com/Airblader/i3
       dest: ~/Git/i3-gaps
   # http://docs.ansible.com/ansible/latest/apt_repository_module.html
   - name: Add libxcb-xrm-dev PPA
+    become: true
     apt_repository:
       repo: 'ppa:aguignard/ppa'
       update_cache: true
   - name: Get i3-gaps dependencies
+    become: true
     apt: name={{item}} state=latest
     with_items:
     - libxcb1-dev
@@ -102,6 +105,7 @@
       chdir: /home/vagrant/Git/i3-gaps/build/
       creates: /home/vagrant/Git/i3-gaps/build/i3
   - name: make install
+    become: true
     command: make install
     args:
       chdir: /home/vagrant/Git/i3-gaps/build/
@@ -125,6 +129,7 @@
       dest: /home/vagrant/Pictures/1asx18foouaz.jpg
 
   - name: Make it the default window manager
+    become: true
     alternatives:
       name: x-window-manager
       path: /usr/bin/i3
