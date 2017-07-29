@@ -25,6 +25,8 @@ ansible -i hosts -u vagrant -k -m ping all
 ansible-playbook -i hosts -k -vv playbook.yaml
 ```
 
-## TODO:
+## Notes
 
+xfce4-terminal
+This gets transparent, but I don't think it will let me do a tint
 

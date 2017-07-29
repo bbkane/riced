@@ -9,6 +9,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.provider "virtualbox" do |vb|
     vb.gui = true
+    vb.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
   end
 
   config.vm.define :riced1 do |riced1|
